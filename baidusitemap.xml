@@ -4,36 +4,14 @@
 
     
   <url>
-    <loc>https://zm8.github.io/blog/2016/05/23/Hexo3-2-github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2(%E8%BD%AC)/</loc>
-    <lastmod>2017-09-27T23:11:33.000Z</lastmod>
-    <data>
-        <display>
-        <title>Hexo3.2+GitHub搭建静态博客(转)</title>
-        <pubTime>2016-05-23T03:16:51.000Z</pubTime>
-        
-        <tag>hexo</tag>
-         
-         
-           
-             
-              <breadCrumb title="hexo博客折腾" url="https://zm8.github.io/blog/categories/hexo%E5%8D%9A%E5%AE%A2%E6%8A%98%E8%85%BE/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://zm8.github.io/blog/2016/08/17/github%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB(%E8%BD%AC)/</loc>
-    <lastmod>2017-09-27T23:11:33.000Z</lastmod>
+    <loc>https://zm8.github.io/blog/2017/09/28/github%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB(%E8%BD%AC)/</loc>
+    <lastmod>2017-09-27T23:24:52.000Z</lastmod>
     <data>
         <display>
         <title>github博客迁移(转)</title>
-        <pubTime>2016-08-17T03:14:25.000Z</pubTime>
+        <pubTime>2017-09-27T23:24:00.000Z</pubTime>
         
         <tag>hexo</tag>
-         
-        <tag>github</tag>
          
          
            
@@ -46,16 +24,34 @@
 
     
   <url>
-    <loc>https://zm8.github.io/blog/2016/12/29/BlueLake%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98%E7%9A%84%E8%AF%A6%E7%BB%86%E9%85%8D%E7%BD%AE(%E8%BD%AC)/</loc>
-    <lastmod>2017-09-27T23:11:31.000Z</lastmod>
+    <loc>https://zm8.github.io/blog/2017/09/28/Hexo3-2-github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2(%E8%BD%AC)/</loc>
+    <lastmod>2017-09-27T23:24:50.000Z</lastmod>
     <data>
         <display>
-        <title>BlueLake博客主题的详细配置(转)</title>
-        <pubTime>2016-12-29T03:25:33.000Z</pubTime>
+        <title>Hexo3.2+GitHub搭建静态博客(转)</title>
+        <pubTime>2017-09-27T23:24:00.000Z</pubTime>
         
         <tag>hexo</tag>
          
-        <tag>BlueLake</tag>
+         
+           
+             
+              <breadCrumb title="hexo博客折腾" url="https://zm8.github.io/blog/categories/hexo%E5%8D%9A%E5%AE%A2%E6%8A%98%E8%85%BE/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://zm8.github.io/blog/2017/09/28/BlueLake%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98%E7%9A%84%E8%AF%A6%E7%BB%86%E9%85%8D%E7%BD%AE(%E8%BD%AC)/</loc>
+    <lastmod>2017-09-27T23:24:24.000Z</lastmod>
+    <data>
+        <display>
+        <title>BlueLake博客主题的详细配置(转)</title>
+        <pubTime>2017-09-27T23:24:00.000Z</pubTime>
+        
+        <tag>hexo</tag>
          
          
            
