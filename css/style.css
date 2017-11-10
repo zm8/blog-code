@@ -600,11 +600,12 @@ body {
 }
 .post .post-content p code {
   margin: 0 5px;
-  padding: 0 5px;
   font-family: Source Code Pro, Monaco, Menlo, Consolas, monospace;
-  color: #4d4d4c;
-  background: #eee;
   font-size: 0.95em;
+  padding: 2px 4px;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 4px;
 }
 .post .post-content p a {
   color: #40759b;
@@ -645,11 +646,10 @@ body {
 }
 .post .post-content ul code,
 .post .post-content ol code {
-  margin: 0 5px;
-  padding: 0 5px;
-  font-family: Source Code Pro, Monaco, Menlo, Consolas, monospace;
-  color: #4d4d4c;
-  background: #eee;
+  padding: 2px 4px;
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  color: #c7254e;
+  background: #f9f2f4;
   font-size: 0.95em;
 }
 .post .post-content ul a,
