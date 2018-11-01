@@ -25,7 +25,7 @@ const askBranch = () => {
         branch = branch.replace('\n', '');
         rl.question(`当前在这个分支吗: ${branch} (Y/N) `, (msg) => {
             if (msg && msg.toLowerCase() === 'y') {
-                resolve();
+                resolve(branch);
             } else {
                 reject('askBranch 暂停了');
             }
@@ -33,9 +33,22 @@ const askBranch = () => {
     });
 }
 
+const pullBranch = (branch) => {
+    return new Promise((resolve, reject) => {
+        let code = exec(`git pull origin ${branch}`).code;
+        if (code === 0) {
+            console.log('git pull success');
+            resolve();
+        } else {
+            reject(code);
+        }
+    });
+}
+
 Promise.resolve()
     .then(() => cdDir())
     .then(() => askBranch())
+    .then(branch => pullBranch(branch))
     .then(() => {
         console.log(`congratulations!!!!`);
         exit(1);
@@ -44,13 +57,6 @@ Promise.resolve()
         console.log(`操作失败: ${err}`);
         exit(1);
     });
-
-const gitPull = () => {
-    //     if (exec('git add .').code !== 0) {
-    //         echo('Error: Git add failed');
-    //         exit(1);
-    //     }
-}
 
 // rl.question('你认为 Node.js 中文网怎么样？', (msg) => {
 //     rl.close();
