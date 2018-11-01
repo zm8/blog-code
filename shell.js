@@ -1,6 +1,9 @@
 require('shelljs/global');
 const readline = require('readline');
 
+const Red = "\x1b[31m%s\x1b[0m";
+const Green = "\x1b[32m%s\x1b[0m";
+
 // 输入内容
 const inputMsg = (cnt) => {
     return new Promise((resolve, reject) => {
@@ -37,7 +40,7 @@ const askBranch = () => {
         let branchExec = exec('git symbolic-ref --short -q HEAD');
         let branch = branchExec.stdout;
         branch = branch.replace('\n', '');
-        inputMsg(`当前在这个分支吗: ${branch} (Y/N) `)
+        inputMsg(`确认操作这个分支: ${branch} (Y/N) `)
             .then(msg => {
                 if (msg && msg.toLowerCase() === 'y') {
                     resolve(branch);
@@ -53,7 +56,7 @@ const pullBranch = (branch) => {
         console.log('正在拉取分支...');
         let code = exec(`git pull origin ${branch}`).code;
         if (code === 0) {
-            console.log('git pull success');
+            console.log(Green, 'git pull success');
             resolve(branch);
         } else {
             reject(code);
@@ -81,6 +84,8 @@ const pushCode = (branch) => {
                     reject('Error: Git push failed');
                     return;
                 }
+                console.log(Green, 'git push success');
+                resolve();
             });
     });
 
@@ -96,28 +101,6 @@ Promise.resolve()
         exit(1);
     })
     .catch(err => {
-        console.log(`\n操作失败: ${err}`);
+        console.log(Red, `\n操作失败: ${err}`);
         exit(1);
     });
-
-// rl.question('你认为 Node.js 中文网怎么样？', (msg) => {
-//     rl.close();
-
-//     if (msg === '') {
-//         console.log('请输入字符22');
-//         return;
-//     }
-
-//     // get_branch = `git symbolic-ref --short -q HEAD`
-
-//     // var q = exec(get_branch);
-//     // // var q = exec('git rev-parse --abbrev-ref HEAD');
-//     // console.log(q.stdout);
-
-
-
-
-//     console.log(4);
-// });
-
-

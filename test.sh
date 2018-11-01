@@ -1,4 +1,32 @@
+Code:
 #!/bin/bash
+#!/bin/bash
+# -------------------------------------------------------------------------- #
+# Syntax  : spinning.cursor.sh
+# -------------------------------------------------------------------------- #
+#set -xv
 
-get_branch=`git symbolic-ref --short -q HEAD`
-echo  git branch is $get_branch
+# start the process that needs the spinning cursor
+sleep 10 &
+pid=$!
+
+
+
+printf "Processing |"
+rotate='|/-\'
+
+while kill -n 0 $pid 2>/dev/null; do
+    rotate="${rotate#?}${rotate%???}"
+    printf '\b%.1s' "$rotate"
+    sleep 1
+done
+echo ''
+
+wait $pid
+
+echo "All done"
+
+exit 0
+
+# -------------------------------------------------------------------------- #
+# End
