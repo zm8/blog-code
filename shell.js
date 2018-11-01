@@ -10,17 +10,24 @@ console.log(1);
 const readline = require('readline');
 
 const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
+    input: process.stdin,
+    output: process.stdout
 });
 
 rl.question('你认为 Node.js 中文网怎么样？', (msg) => {
-  rl.close();
+    rl.close();
 
-  if(msg === ''){
-      console.log('请输入字符');
-      return;
-  }
+    if (msg === '') {
+        console.log('请输入字符');
+        return;
+    }
+
+    // get_branch = `git symbolic-ref --short -q HEAD`
+
+    // var q = exec(get_branch);
+    // // var q = exec('git rev-parse --abbrev-ref HEAD');
+    // console.log(q.stdout);
+
 
     if (exec('git add .').code !== 0) {
         echo('Error: Git add failed');
