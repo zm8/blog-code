@@ -14,10 +14,13 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-rl.question('你认为 Node.js 中文网怎么样？', (answer) => {
-  // 对答案进行处理
-  console.log(`多谢你的反馈：${answer}`);
+rl.question('你认为 Node.js 中文网怎么样？', (msg) => {
   rl.close();
+
+  if(msg === ''){
+      console.log('请输入字符');
+      return;
+  }
 
     if (exec('git add .').code !== 0) {
         echo('Error: Git add failed');
@@ -26,7 +29,7 @@ rl.question('你认为 Node.js 中文网怎么样？', (answer) => {
 
     console.log(2);
 
-    if (exec('git commit -m "Auto-commit"').code !== 0) {
+    if (exec(`git commit -m "${msg}"`).code !== 0) {
         echo('Error: Git commit failed');
         exit(1);
     }
