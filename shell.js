@@ -33,10 +33,6 @@ const cdDir = () => {
 // 询问是否是当前的分支
 const askBranch = () => {
     return new Promise((resolve, reject) => {
-        const rl = readline.createInterface({
-            input: process.stdin,
-            output: process.stdout
-        });
         let branchExec = exec('git symbolic-ref --short -q HEAD');
         let branch = branchExec.stdout;
         branch = branch.replace('\n', '');
@@ -90,6 +86,8 @@ const pushCode = (branch) => {
     });
 
 }
+
+
 
 Promise.resolve()
     .then(() => cdDir())
