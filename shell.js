@@ -2,6 +2,11 @@ require('shelljs/global');
 
 console.log(1);
 
+// if (exec('git merge origin/master').code !== 0) {
+//     echo('Error: Git merge failed');
+//     exit(1);
+// }
+
 if (exec('git add .').code !== 0) {
     echo('Error: Git add failed');
     exit(1);
