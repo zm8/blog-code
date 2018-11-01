@@ -1,0 +1,11 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:zm8/blog.git",
+  "author": "郑铭 <zhengming809@pingan.com.cn>",
+  "license": "MIT",
+  "dependencies": {
+    "shelljs": "^0.8.2"
+  }
+}
