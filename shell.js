@@ -84,7 +84,7 @@ const pushCode = (branch) => {
                     reject('Error: Git push failed');
                     return;
                 }
-                console.log(Green, 'git push success');
+                console.log(Green, 'git push success\n');
                 resolve();
             });
     });
@@ -97,7 +97,7 @@ Promise.resolve()
     .then(branch => pullBranch(branch))
     .then(branch => pushCode(branch))
     .then(() => {
-        console.log(`congratulations!!!!`);
+        console.log(Green, `congratulations!!!!`);
         exit(1);
     })
     .catch(err => {
