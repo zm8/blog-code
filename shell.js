@@ -18,7 +18,7 @@ rl.question('你认为 Node.js 中文网怎么样？', (msg) => {
     rl.close();
 
     if (msg === '') {
-        console.log('请输入字符');
+        console.log('请输入字符22');
         return;
     }
 
