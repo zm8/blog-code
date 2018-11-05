@@ -28,7 +28,7 @@ const inputMsg = (cnt) => {
             input: process.stdin,
             output: process.stdout
         });
-        rl.question(`${cnt}`, (msg) => {
+        rl.question(`${cnt}${Reset}`, (msg) => {
             rl.close();
             resolve(msg);
         });
@@ -109,7 +109,7 @@ const pushCode = (branch) => {
                     reject('Error: Git push failed');
                     return;
                 }
-                console.log(Green, 'git push success\n');
+                console.log(`git push success${Green}\n`);
                 resolve();
             });
     });
@@ -123,10 +123,10 @@ Promise.resolve()
     .then(branch => pullBranch(branch))
     .then(branch => pushCode(branch))
     .then(() => {
-        console.log(Green, `congratulations!!!!`);
+        console.log(`congratulations!!!! ${Green}`);
         exit(1);
     })
     .catch(err => {
-        console.log(Red, `\n操作失败: ${err}`);
+        console.log(`\n操作失败: ${err}${Red}`);
         exit(1);
     });
