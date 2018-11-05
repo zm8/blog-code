@@ -2,24 +2,29 @@ require('shelljs/global');
 const readline = require('readline');
 const path = require('path');
 
+let COLOR = {
+    Reset: '\u001b[1;0m',
+    Bright: '\u001b[1;1m',
+    Dim: '\u001b[1;2m',
+    Underscore: '\u001b[1;4m',
+    Blink: '\u001b[1;5m',
+    Reverse: '\u001b[1;7m',
+    Hidden: '\u001b[1;8m',
+    Black: '\u001b[1;30m',
+    Red: '\u001b[1;31m',
+    Green: '\u001b[1;32m',
+    Yellow: '\u001b[1;33m',
+    Blue: '\u001b[1;34m',
+    Magenta: '\u001b[1;35m',
+    Cyan: '\u001b[1;36m',
+    White: '\u001b[1;37m',
+    Crimson: '\u001b[1;38m'
+}
 
-const Reset = '\u001b[1;0m';
-const Bright = '\u001b[1;1m';
-const Dim = '\u001b[1;2m';
-const Underscore = '\u001b[1;4m';
-const Blink = '\u001b[1;5m';
-const Reverse = '\u001b[1;7m';
-const Hidden = '\u001b[1;8m';
-const Black = '\u001b[1;30m';
-const Red = '\u001b[1;31m';
-const Green = '\u001b[1;32m';
-const Yellow = '\u001b[1;33m';
-const Blue = '\u001b[1;34m';
-const Magenta = '\u001b[1;35m';
-const Cyan = '\u001b[1;36m';
-const White = '\u001b[1;37m';
-const Crimson = '\u001b[1;38m';
-
+let colour = {};
+for (let n in COLOR) {
+    colour[n] = cnt => COLOR[n] + cnt + COLOR['Reset'];
+}
 
 // 输入内容
 const inputMsg = (cnt) => {
@@ -28,7 +33,7 @@ const inputMsg = (cnt) => {
             input: process.stdin,
             output: process.stdout
         });
-        rl.question(`${cnt}${Reset}`, (msg) => {
+        rl.question(`${cnt}`, (msg) => {
             rl.close();
             resolve(msg);
         });
@@ -39,17 +44,19 @@ const inputMsg = (cnt) => {
 const cdDir = (n) => {
     return new Promise((resolve, reject) => {
         let dir = path.join(__dirname, n);
-        console.log(`当前所在路径是 ${Yellow}${dir}`);
+        console.log(`当前所在路径是: ${colour.Yellow(dir)}`);
 
         let repository = exec('git remote show origin -n | grep "Fetch URL:"', { silent: true });
         if (repository.code !== 0) {
             reject(repository.code);
             return;
         }
-        repository = repository.substr(repository.lastIndexOf('/') + 1);
+        // repository = repository.substr(repository.lastIndexOf('/') + 1);
+        repository = repository.replace(/\s+Fetch URL:\s+/, '');
         repository = repository.replace('\n', '');
+        repository = colour.Yellow(repository);
 
-        console.log(`当前的远端分支是 ${Yellow}${repository}`);
+        console.log(`当前的远端分支是: ${repository}`);
         let code = cd(dir);
         if (code == 0) {
             resolve();
@@ -65,7 +72,8 @@ const askBranch = () => {
         let branchExec = exec('git symbolic-ref --short -q HEAD', { silent: true });
         let branch = branchExec.stdout;
         branch = branch.replace('\n', '');
-        inputMsg(`确认操作这个分支: ${branch} (Y/N) `)
+        let branchStr = colour.Yellow(`${branch} (Y/N): `);
+        inputMsg(`确认操作这个分支: ${branchStr}`)
             .then(msg => {
                 if (msg && msg.toLowerCase() === 'y') {
                     resolve(branch);
@@ -81,7 +89,8 @@ const pullBranch = (branch) => {
         console.log('正在拉取分支...');
         let code = exec(`git pull origin ${branch}`).code;
         if (code === 0) {
-            console.log(`${Yellow}pull success`);
+            let successStr = colour.Yellow(`pull success`);
+            console.log(`${successStr}`);
             resolve(branch);
         } else {
             reject(code);
@@ -91,7 +100,9 @@ const pullBranch = (branch) => {
 
 const pushCode = (branch) => {
     return new Promise((resolve, reject) => {
-        return inputMsg('\n请输入 commit 内容: ')
+        let comStr = '\n请输入 commit 内容: ';
+        comStr = colour.Yellow(`${comStr}`);
+        return inputMsg(comStr)
             .then(msg => {
                 if (msg.length < 2) {
                     reject('commit 内容太短');
@@ -109,7 +120,8 @@ const pushCode = (branch) => {
                     reject('Error: Git push failed');
                     return;
                 }
-                console.log(`git push success${Green}\n`);
+                let pullStr = colour.Yellow('git push success\n');
+                console.log(`${pullStr}`);
                 resolve();
             });
     });
@@ -118,15 +130,19 @@ const pushCode = (branch) => {
 
 
 Promise.resolve()
+    .then(() => {
+        // 初始进来 重置下颜色
+        console.log(`${colour.Reset('')}`);
+    })
     .then(() => cdDir('./'))
     .then(() => askBranch())
     .then(branch => pullBranch(branch))
     .then(branch => pushCode(branch))
     .then(() => {
-        console.log(`congratulations!!!! ${Green}`);
+        console.log(`congratulations!!!!`);
         exit(1);
     })
     .catch(err => {
-        console.log(`\n操作失败: ${err}${Red}`);
+        console.log(`\n操作失败: ${colour.Red(err)}`);
         exit(1);
     });
