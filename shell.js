@@ -133,29 +133,29 @@ const pushCode = (branch) => {
 }
 
 
-// let aaa = exec('git diff origin/master --name-only', { silent: true });
-// let stdout = aaa.stdout;
-// stdout = stdout.replace(/(^\n*)|(\n*$)/g, "");
-// stdout = stdout.split('\n');
-// stdout.forEach(element => {
-//     console.log(element);
-// });
+let gitDiff = exec('git diff origin/master --name-only', { silent: true });
+let stdout = gitDiff.stdout;
+stdout = stdout.replace(/(^\n*)|(\n*$)/g, "");
+stdout = stdout.split('\n');
+stdout.forEach(element => {
+    console.log(element);
+});
 
-Promise.resolve()
-    .then(() => {
-        // 初始进来 重置下颜色
-        console.log(`${colour.Reset('')}`);
-    })
-    .then(() => cdDir('./'))
-    .then(() => askBranch())
-    .then(branch => pullBranch(branch))
-    .then(branch => pushCode(branch))
-    .then(() => {
-        let str = colour.Yellow('congratulations!!!!\n');
-        console.log(`${str}`);
-        exit(1);
-    })
-    .catch(err => {
-        console.log(`\n操作失败: ${colour.Red(err)}`);
-        exit(1);
-    });
+// Promise.resolve()
+//     .then(() => {
+//         // 初始进来 重置下颜色
+//         console.log(`${colour.Reset('')}`);
+//     })
+//     .then(() => cdDir('./'))
+//     .then(() => askBranch())
+//     .then(branch => pullBranch(branch))
+//     .then(branch => pushCode(branch))
+//     .then(() => {
+//         let str = colour.Yellow('congratulations!!!!\n');
+//         console.log(`${str}`);
+//         exit(1);
+//     })
+//     .catch(err => {
+//         console.log(`\n操作失败: ${colour.Red(err)}`);
+//         exit(1);
+//     });
