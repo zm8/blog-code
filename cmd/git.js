@@ -1,12 +1,12 @@
 const branchCurrent = require('./git/branchCur');
 const remoteUrl = require('./git/remoteUrl');
-const submit = require('./git/submit');
 const log = require('./com/log');
 const execCmd = require('./com/execCmd');
 const inputMsg = require('./com/inputMsg');
 const color = require('./com/color');
 const gitPull = require('./git/gitPull');
 const gitPush = require('./git/gitPush');
+const gitCommit = require('./git/gitCommit');
 
 module.exports = function (path) {
     return Promise.resolve()
@@ -57,36 +57,17 @@ module.exports = function (path) {
                     }
                 });
         })
-        .then(() => {
-            return new Promise((resolve, reject) => {
-                let comStr = '请输入 commit 内容: ';
-                comStr = color.yellow(`${comStr}`);
-                return inputMsg(comStr)
-                    .then(msg => {
-                        if (msg.length < 6) {
-                            reject('commit 内容太短');
-                            return;
-                        }
-                        resolve(msg);
-                    });
-            });
-        })
-        .then(commitMsg => {
-            return Promise.resolve()
-                .then(() => gitPull())
-                .then(() => pullSuccess(commitMsg))
-                .catch(err => {
-                    // log.tip(err, 1);
-                    log.error('git pull 失败了');
-                    return pullErr(commitMsg);
-                });
+        .then(() => gitPull())
+        .then(() => pullSuccess())
+        .catch(err => {
+            // log.tip(err, 1);
+            log.error('git pull 失败了');
+            return pullErr();
         });
 
-    function pullSuccess(commitMsg) {
+    function pullSuccess() {
         return Promise.resolve()
-            .then(() => submit.add())
-            .then(() => submit.commit(commitMsg))
-            .then(() => log.tip('git commit success', 1))
+            .then(() => gitCommit())
             .then(() => gitPush());
     }
 
@@ -103,9 +84,7 @@ module.exports = function (path) {
                     }
                 });
             })
-            .then(() => submit.add())
-            .then(() => submit.commit(commitMsg))
-            .then(() => log.tip('git commit success', 1))
+            .then(() => gitCommit())
             .then(() => gitPull())
             .then(() => gitPush());
     }
