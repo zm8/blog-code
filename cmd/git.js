@@ -42,7 +42,7 @@ module.exports = function (path) {
                             .tip(`${data}`);
                     } else {
                         return new Promise((resolve, reject) => {
-                            let msgContinue = color.Yellow(`没有修改的文件，是否继续 (Y/N): `);
+                            let msgContinue = color.yellow(`没有修改的文件，是否继续 (Y/N): `);
                             return inputMsg(msgContinue)
                                 .then(msg => {
                                     if (msg && msg.toLowerCase() === 'y') {
