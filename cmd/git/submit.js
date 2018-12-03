@@ -3,17 +3,9 @@ let shell = require('shelljs');
 const submit = function (cmd) {
     return new Promise((resolve, reject) => {
         let res = shell.exec(cmd, { silent: true });
-
-        let stdout = res.stdout;
-        let stderr = res.stderr;
-        console.log(1111);
-        console.log(stdout);
-        console.log(2222);
-        console.log(stderr);
-        console.log(3333);
-
-        if (res.code !== 0) {
-            reject(res.stdout || res.stderr);
+        let { stdout, stderr, code } = res;
+        if (code !== 0) {
+            reject(stdout || stderr);
             return;
         }
         resolve();

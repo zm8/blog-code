@@ -18,13 +18,12 @@ module.exports = (cmd, cnt) => {
         } else {
             res = shell.exec(cmd, { silent: true });
         }
-        let stdout = res.stdout;
-        let stderr = res.stderr;
+        let { stdout, stderr, code } = res;
 
-        if (res.code === 0) {
+        if (code === 0) {
             resolve(stdout);
         } else {
-            reject(stdout);
+            reject(stdout || stderr);
         }
     });
 }
