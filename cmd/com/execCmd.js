@@ -1,23 +1,16 @@
-// let shell = require('shelljs');
-
-// // cd 命令
-// module.exports = (cmd, cnt) => {
-//     let res = shell[cmd](cnt);
-//     if (res.code === 0) {
-//         // resolve();
-//     } else {
-//         // reject(res.stderr);
-//     }
-// }
-
 let shell = require('shelljs');
 
 // cd 命令
 module.exports = (cmd, cnt) => {
     return new Promise((resolve, reject) => {
         /*
-            注意这里不用这种方式, 因为用在 promise 里面会不行
-            let res = shell.exec(cnt, { silent: true });
+            let res = shell.exec(cnt);
+            注意这里不用上面这种方式写,
+            因为cd 的时候会有问题, 比如下面的代码,
+            并不会在 2017 目录下面创建一个 1111.js,
+            还是只会在当前目录下创建
+            shell.exec('cd ../2017');
+            shell.exec('mkdir 1111.js');
         */
         let res = shell[cmd](cnt);
         if (res.code === 0) {
