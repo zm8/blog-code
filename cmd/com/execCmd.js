@@ -16,7 +16,7 @@ module.exports = (cmd, cnt) => {
         if (shell[cmd]) {
             res = shell[cmd](cnt);
         } else {
-            res = shell.exec(cmd);
+            res = shell.exec(cmd, { silent: true });
         }
         if (res.code === 0) {
             resolve(res.stdout);

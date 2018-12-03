@@ -32,6 +32,13 @@ module.exports = function (path) {
                 });
         })
         .then(() => {
+            return execCmd('git status --short')
+                .then(data => {
+                    log.oneline(`当前的修改文件有: \n`)
+                        .tip(`${data}`);
+                });
+        })
+        .then(() => {
             return new Promise((resolve, reject) => {
                 let comStr = '\n请输入 commit 内容: ';
                 comStr = color.yellow(`${comStr}`);

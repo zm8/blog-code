@@ -21,6 +21,11 @@ exports.tip = function (cnt, flag) {
     return this;
 }
 
+exports.org = function (cnt) {
+    console.log(cnt);
+    return this;
+}
+
 exports.oneline = function (cnt) {
     process.stdout.write(cnt);
     return this;
