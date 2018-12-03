@@ -13,11 +13,3 @@ Promise.resolve()
     .catch((err) => {
         log.error(err);
     });
-
-// git('./')
-//     .then(() => {
-//         log.success('git push success!!!', 1);
-//     })
-//     .catch((err) => {
-//         log.error(err);
-//     });
