@@ -70,10 +70,13 @@ module.exports = function (path) {
             });
         })
         .then(data => {
-            return submit.add()
+            return Promise.resolve()
+                .then(() => {
+                    return branchCurrent()
+                        .then(branch => submit.pull(branch))
+                })
+                .then(() => submit.add())
                 .then(() => submit.commit(data))
-                .then(() => branchCurrent())
-                .then(data => submit.pull(data))
                 .then(() => submit.push());
         });
 }
