@@ -19,7 +19,7 @@ exports.add = function () {
     return submit(`git add .`);
 }
 exports.commit = function (msg) {
-    return submit(`git commit -m ${msg}`);
+    return submit(`git commit -m "${msg}"`);
 }
 exports.push = function () {
     return submit(`git push`);

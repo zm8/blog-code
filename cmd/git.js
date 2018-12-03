@@ -51,6 +51,7 @@ Promise.resolve()
             .then(data => submit.pull(data))
             .then(() => submit.push());
     })
+
     .catch((err) => {
         log.error(err, 1);
     });
