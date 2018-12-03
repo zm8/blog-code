@@ -10,5 +10,3 @@ Promise.resolve()
     .catch((err) => {
         log.error(err);
     });
-
-
