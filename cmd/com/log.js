@@ -11,6 +11,11 @@ exports.success = function (cnt, flag) {
     return this;
 }
 
+exports.color = function (colorName, cnt, flag) {
+    console.log(setColor(cnt, colorName, flag));
+    return this;
+}
+
 exports.error = function (cnt, flag) {
     console.log(setColor(cnt, 'red', flag));
     return this;
@@ -29,4 +34,8 @@ exports.org = function (cnt) {
 exports.oneline = function (cnt) {
     process.stdout.write(cnt);
     return this;
+}
+
+exports.start = function (cnt) {
+    this.color('magenta', `======================${cnt}======================`, 1);
 }

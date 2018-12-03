@@ -8,6 +8,9 @@ const color = require('./com/color');
 
 module.exports = function (path) {
     return Promise.resolve()
+        .then(() => {
+            log.start('开始操作git');
+        })
         .then(() => execCmd('cd', path))
         .then(() => {
             return execCmd('pwd')
@@ -48,7 +51,7 @@ module.exports = function (path) {
                 comStr = color.yellow(`${comStr}`);
                 return inputMsg(comStr)
                     .then(msg => {
-                        if (msg.length < 2) {
+                        if (msg.length < 6) {
                             reject('commit 内容太短');
                             return;
                         }

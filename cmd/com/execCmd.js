@@ -19,7 +19,8 @@ module.exports = (cmd, cnt) => {
             res = shell.exec(cmd, { silent: true });
         }
         if (res.code === 0) {
-            resolve(res.stdout);
+            let stdout = res.stdout;
+            resolve(stdout);
         } else {
             reject(res.stderr);
         }
