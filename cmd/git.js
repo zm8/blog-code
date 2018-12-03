@@ -49,7 +49,10 @@ Promise.resolve()
             .then(() => submit.commit(data))
             .then(() => branchCurrent())
             .then(data => submit.pull(data))
-            .then(() => submit.push());
+            .then(() => submit.push())
+            .then(() => {
+                log.success('git push success');
+            });
     })
 
     .catch((err) => {

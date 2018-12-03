@@ -12,7 +12,6 @@ const submit = function (cmd) {
 }
 
 exports.pull = function (branch) {
-    console.log('branch ==== ' + branch);
     return submit(branch ? `git pull origin ${branch}` : `git pull`);
 }
 exports.add = function () {
