@@ -57,7 +57,7 @@ module.exports = function (path) {
         })
         .then(() => {
             return new Promise((resolve, reject) => {
-                let comStr = '\n请输入 commit 内容: ';
+                let comStr = '请输入 commit 内容: ';
                 comStr = color.yellow(`${comStr}`);
                 return inputMsg(comStr)
                     .then(msg => {
@@ -92,7 +92,7 @@ module.exports = function (path) {
     }
 
     function pullErr(commitMsg) {
-        let comStr = '\n是否先commit再pull: (Y/N)';
+        let comStr = '是否先commit再pull: (Y/N)';
         comStr = color.yellow(`${comStr}`);
         return inputMsg(comStr)
             .then(msg => {
