@@ -69,14 +69,45 @@ module.exports = function (path) {
                     });
             });
         })
-        .then(data => {
+        .then(commitMsg => {
             return Promise.resolve()
+                .then(() => branchCurrent())
+                .then(branch => submit.pull(branch))
                 .then(() => {
-                    return branchCurrent()
-                        .then(branch => submit.pull(branch))
+                    log.tip('git pull success', 1);
+                    return pullSuccess(commitMsg);
                 })
-                .then(() => submit.add())
-                .then(() => submit.commit(data))
-                .then(() => submit.push());
+                .catch(err => {
+                    // log.tip(err, 1);
+                    log.error('git pull 失败了');
+                    return pullErr(commitMsg);
+                });
         });
+
+    function pullSuccess(commitMsg) {
+        return Promise.resolve()
+            .then(() => submit.add())
+            .then(() => submit.commit(commitMsg))
+            .then(() => submit.push());
+    }
+
+    function pullErr(commitMsg) {
+        let comStr = '\n是否先commit再pull: (Y/N)';
+        comStr = color.yellow(`${comStr}`);
+        return inputMsg(comStr)
+            .then(msg => {
+                return new Promise((resolve, reject) => {
+                    if (msg && msg.toLowerCase() === 'y') {
+                        resolve();
+                    } else {
+                        reject('停止了');
+                    }
+                });
+            })
+            .then(() => submit.add())
+            .then(() => submit.commit(commitMsg))
+            .then(() => branchCurrent())
+            .then(branch => submit.pull(branch))
+            .then(() => submit.push());
+    }
 }
