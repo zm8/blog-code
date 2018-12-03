@@ -12,9 +12,14 @@ module.exports = (cmd, cnt) => {
             shell.exec('cd ../2017');
             shell.exec('mkdir 1111.js');
         */
-        let res = shell[cmd](cnt);
+        let res;
+        if (shell[cmd]) {
+            res = shell[cmd](cnt);
+        } else {
+            res = shell.exec(cmd);
+        }
         if (res.code === 0) {
-            resolve();
+            resolve(res.stdout);
         } else {
             reject(res.stderr);
         }

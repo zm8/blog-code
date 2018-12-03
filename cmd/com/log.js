@@ -8,12 +8,20 @@ const setColor = function (cnt, colorName, flag) {
 
 exports.success = function (cnt, flag) {
     console.log(setColor(cnt, 'green', flag));
+    return this;
 }
 
 exports.error = function (cnt, flag) {
     console.log(setColor(cnt, 'red', flag));
+    return this;
 }
 
 exports.tip = function (cnt, flag) {
     console.log(setColor(cnt, 'yellow', flag));
+    return this;
+}
+
+exports.oneline = function (cnt) {
+    process.stdout.write(cnt);
+    return this;
 }
