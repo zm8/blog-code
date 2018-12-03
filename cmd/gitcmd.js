@@ -1,7 +1,8 @@
 const git = require('./git');
 const log = require('./com/log');
 
-git('./')
+Promise.resolve()
+    .then(() => git('./'))
     .then(() => {
         log.success('git push success!!!', 1);
     })
