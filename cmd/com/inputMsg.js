@@ -7,7 +7,8 @@ module.exports = (cnt) => {
             input: process.stdin,
             output: process.stdout
         });
-        rl.question(`${cnt}`, (msg) => {
+        rl.question(`\n${cnt}`, (msg) => {
+            console.log('');
             rl.close();
             resolve(msg);
         });

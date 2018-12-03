@@ -57,7 +57,7 @@ module.exports = function (path) {
         })
         .then(() => {
             return new Promise((resolve, reject) => {
-                let comStr = '\n请输入 commit 内容: ';
+                let comStr = '请输入 commit 内容: ';
                 comStr = color.yellow(`${comStr}`);
                 return inputMsg(comStr)
                     .then(msg => {
@@ -71,6 +71,7 @@ module.exports = function (path) {
         })
         .then(commitMsg => {
             return Promise.resolve()
+                .then(() => log.org('正在 git pull........', 1))
                 .then(() => branchCurrent())
                 .then(branch => submit.pull(branch))
                 .then(() => {
@@ -88,11 +89,13 @@ module.exports = function (path) {
         return Promise.resolve()
             .then(() => submit.add())
             .then(() => submit.commit(commitMsg))
-            .then(() => submit.push());
+            .then(() => log.org('正在 git push........', 1))
+            .then(() => submit.push())
+            .then(() => log.tip('git push success', 1));
     }
 
     function pullErr(commitMsg) {
-        let comStr = '\n是否先commit再pull: (Y/N)';
+        let comStr = '是否先commit再pull: (Y/N)';
         comStr = color.yellow(`${comStr}`);
         return inputMsg(comStr)
             .then(msg => {
@@ -106,8 +109,12 @@ module.exports = function (path) {
             })
             .then(() => submit.add())
             .then(() => submit.commit(commitMsg))
+            .then(() => log.org('正在 git pull........', 1))
             .then(() => branchCurrent())
             .then(branch => submit.pull(branch))
-            .then(() => submit.push());
+            .then(() => log.tip('git pull success', 1))
+            .then(() => log.org('正在 git push........', 1))
+            .then(() => submit.push())
+            .then(() => log.tip('git push success', 1));
     }
 }
