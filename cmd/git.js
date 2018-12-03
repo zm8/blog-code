@@ -87,8 +87,11 @@ module.exports = function (path) {
     function pullSuccess(commitMsg) {
         return Promise.resolve()
             .then(() => submit.add())
+            .then(() => log.tip('git add success', 1))
             .then(() => submit.commit(commitMsg))
-            .then(() => submit.push());
+            .then(() => log.tip('git commit success', 1))
+            .then(() => submit.push())
+            .then(() => log.tip('git push success', 1));
     }
 
     function pullErr(commitMsg) {
@@ -105,9 +108,13 @@ module.exports = function (path) {
                 });
             })
             .then(() => submit.add())
+            .then(() => log.tip('git add success', 1))
             .then(() => submit.commit(commitMsg))
+            .then(() => log.tip('git commit commit', 1))
             .then(() => branchCurrent())
             .then(branch => submit.pull(branch))
-            .then(() => submit.push());
+            .then(() => log.tip('git pull success', 1))
+            .then(() => submit.push())
+            .then(() => log.tip('git push success', 1));
     }
 }
