@@ -34,8 +34,12 @@ module.exports = function (path) {
         .then(() => {
             return execCmd('git status --short')
                 .then(data => {
-                    log.oneline(`当前的修改文件有: \n`)
-                        .tip(`${data}`);
+                    if (data) {
+                        log.oneline(`当前的修改文件有: \n`)
+                            .tip(`${data}`);
+                    } else {
+                        throw Error(`没有修改的文件\n`);
+                    }
                 });
         })
         .then(() => {

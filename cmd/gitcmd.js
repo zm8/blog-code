@@ -1,11 +1,19 @@
 const git = require('./git');
 const log = require('./com/log');
 
+// git('./')
+//     .then(() => {
+//         log.success('git push success!!!', 1);
+//     })
+//     .then(() => git('../biyibi_new_skin'))
+//     .then(() => {
+//         log.success('git push success!!!', 1);
+//     });
+
 git('./')
     .then(() => {
         log.success('git push success!!!', 1);
     })
-    .then(() => git('../biyibi_new_skin'))
-    .then(() => {
-        log.success('git push success!!!', 1);
+    .catch((err) => {
+        log.error(err);
     });
