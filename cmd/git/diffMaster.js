@@ -11,7 +11,7 @@ module.exports = () => {
         }
         let stdout = result.stdout;
         stdout = stdout.replace(/(^\n*)|(\n*$)/g, "");
-        stdout = stdout.split('\n');
+        stdout = stdout.split('\n') || [];
         resolve(stdout);
     });
 }
