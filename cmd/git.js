@@ -57,12 +57,14 @@ module.exports = function (path) {
                     }
                 });
         })
-        .then(() => gitPull())
-        .then(() => pullSuccess())
-        .catch(err => {
-            // log.tip(err, 1);
-            log.error('git pull 失败了');
-            return pullErr();
+        .then(() => {
+            return gitPull()
+                .then(() => pullSuccess())
+                .catch(err => {
+                    // log.tip(err, 1);
+                    log.error('git pull 失败了');
+                    return pullErr();
+                });
         });
 
     function pullSuccess() {
