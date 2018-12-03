@@ -144,26 +144,26 @@ const pushCode = (branch) => {
 // console.log('2222')
 // console.log(process.argv)
 
-Promise.resolve()
-    // .then(() => {
-    //     // 初始进来 重置下颜色
-    //     console.log(`${colour.Reset('')}`);
-    // })
-    .then(() => cdDir('./'))
-    .then(() => askBranch())
-    .then(branch => pullBranch(branch))
-    .then(branch => pushCode(branch))
-    .then(() => {
-        let str = colour.Yellow('congratulations!!!!\n');
-        console.log(`${str}`);
-        exit(1);
-    })
-    .catch(err => {
-        console.log(`\n操作失败: ${colour.Red(err)}`);
-        exit(1);
-    });
+// Promise.resolve()
+//     // .then(() => {
+//     //     // 初始进来 重置下颜色
+//     //     console.log(`${colour.Reset('')}`);
+//     // })
+//     .then(() => cdDir('./'))
+//     .then(() => askBranch())
+//     .then(branch => pullBranch(branch))
+//     .then(branch => pushCode(branch))
+//     .then(() => {
+//         let str = colour.Yellow('congratulations!!!!\n');
+//         console.log(`${str}`);
+//         exit(1);
+//     })
+//     .catch(err => {
+//         console.log(`\n操作失败: ${colour.Red(err)}`);
+//         exit(1);
+//     });
 
 
-// let gitDiff = exec('git log -n 1 --pretty=format:"%h" -- shell.js', { silent: true });
-// let stdout = gitDiff.stdout;
-// console.log(stdout);
+let gitDiff = exec('git log -n 1 --pretty=format:"%h" -- shell.js', { silent: true });
+let stdout = gitDiff.stdout;
+console.log(stdout);
