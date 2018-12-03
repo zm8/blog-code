@@ -5,6 +5,8 @@ const log = require('./com/log');
 const execCmd = require('./com/execCmd');
 const inputMsg = require('./com/inputMsg');
 const color = require('./com/color');
+const gitPull = require('./git/gitPull');
+const gitPush = require('./git/gitPush');
 
 module.exports = function (path) {
     return Promise.resolve()
@@ -71,13 +73,8 @@ module.exports = function (path) {
         })
         .then(commitMsg => {
             return Promise.resolve()
-                .then(() => log.org('正在 git pull........', 1))
-                .then(() => branchCurrent())
-                .then(branch => submit.pull(branch))
-                .then(() => {
-                    log.tip('git pull success', 1);
-                    return pullSuccess(commitMsg);
-                })
+                .then(() => gitPull())
+                .then(() => pullSuccess(commitMsg))
                 .catch(err => {
                     // log.tip(err, 1);
                     log.error('git pull 失败了');
@@ -90,9 +87,7 @@ module.exports = function (path) {
             .then(() => submit.add())
             .then(() => submit.commit(commitMsg))
             .then(() => log.tip('git commit success', 1))
-            .then(() => log.org('正在 git push........', 1))
-            .then(() => submit.push())
-            .then(() => log.tip('git push success', 1));
+            .then(() => gitPush());
     }
 
     function pullErr(commitMsg) {
@@ -111,12 +106,7 @@ module.exports = function (path) {
             .then(() => submit.add())
             .then(() => submit.commit(commitMsg))
             .then(() => log.tip('git commit success', 1))
-            .then(() => log.org('正在 git pull........', 1))
-            .then(() => branchCurrent())
-            .then(branch => submit.pull(branch))
-            .then(() => log.tip('git pull success', 1))
-            .then(() => log.org('正在 git push........', 1))
-            .then(() => submit.push())
-            .then(() => log.tip('git push success', 1));
+            .then(() => gitPull())
+            .then(() => gitPush());
     }
 }

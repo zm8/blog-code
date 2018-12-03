@@ -131,15 +131,7 @@ const pushCode = (branch) => {
 }
 
 
-// let gitDiff = exec('git diff origin/master --name-only', { silent: true });
-// let stdout = gitDiff.stdout;
-// stdout = stdout.replace(/(^\n*)|(\n*$)/g, "");
-// if (stdout) {
-//     stdout = stdout.split('\n');
-//     stdout.forEach(element => {
-//         console.log(element);
-//     });
-// }
+
 
 // console.log('2222')
 // console.log(process.argv)
@@ -164,6 +156,19 @@ const pushCode = (branch) => {
 //     });
 
 
-let gitDiff = exec('git log -n 1 --pretty=format:"%h" -- shell.js', { silent: true });
+let gitDiff = exec('git diff origin/master --name-only', { silent: true });
 let stdout = gitDiff.stdout;
-console.log(stdout);
+stdout = stdout.replace(/(^\n*)|(\n*$)/g, "");
+if (stdout) {
+    stdout = stdout.split('\n');
+    stdout.forEach(element => {
+        console.log(element);
+    });
+}
+
+!function () {
+    let commitMD5 = exec('git log -n 1 --pretty=format:"%h" -- shell.js', { silent: true });
+    let stdout = commitMD5.stdout;
+    console.log(stdout);
+}();
+
