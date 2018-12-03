@@ -88,9 +88,8 @@ module.exports = function (path) {
     function pullSuccess(commitMsg) {
         return Promise.resolve()
             .then(() => submit.add())
-            .then(() => log.org('git add success'))
             .then(() => submit.commit(commitMsg))
-            .then(() => log.org('git commit success'))
+            .then(() => log.org('正在 git push........', 1))
             .then(() => submit.push())
             .then(() => log.tip('git push success', 1));
     }
@@ -109,13 +108,12 @@ module.exports = function (path) {
                 });
             })
             .then(() => submit.add())
-            .then(() => log.org('git add success'))
             .then(() => submit.commit(commitMsg))
-            .then(() => log.org('git commit success'))
             .then(() => log.org('正在 git pull........', 1))
             .then(() => branchCurrent())
             .then(branch => submit.pull(branch))
             .then(() => log.tip('git pull success', 1))
+            .then(() => log.org('正在 git push........', 1))
             .then(() => submit.push())
             .then(() => log.tip('git push success', 1));
     }
