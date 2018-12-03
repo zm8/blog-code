@@ -41,7 +41,17 @@ module.exports = function (path) {
                         log.oneline(`当前的修改文件有: \n`)
                             .tip(`${data}`);
                     } else {
-                        throw Error(`没有修改的文件\n`);
+                        return new Promise((resolve, reject) => {
+                            let msgContinue = colour.Yellow(`没有修改的文件，是否继续 (Y/N): `);
+                            return inputMsg(msgContinue)
+                                .then(msg => {
+                                    if (msg && msg.toLowerCase() === 'y') {
+                                        resolve();
+                                    } else {
+                                        reject('停止了');
+                                    }
+                                });
+                        });
                     }
                 });
         })
