@@ -9,6 +9,7 @@ const gitPush = require('./git/gitPush');
 const gitCommit = require('./git/gitCommit');
 
 module.exports = function ({ path, afterPullSuccess }) {
+    afterPullSuccess = afterPullSuccess || (() => Promise.resolve());
     return Promise.resolve()
         .then(() => {
             log.start('开始操作git');
@@ -68,6 +69,7 @@ module.exports = function ({ path, afterPullSuccess }) {
 
     function pullSuccess() {
         return Promise.resolve()
+            .then(() => afterPullSuccess())
             .then(() => gitCommit())
             .then(() => gitPush());
     }
@@ -87,6 +89,7 @@ module.exports = function ({ path, afterPullSuccess }) {
             })
             .then(() => gitCommit())
             .then(() => gitPull())
+            .then(() => afterPullSuccess())
             .then(() => gitPush());
     }
 }
