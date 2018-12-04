@@ -2,7 +2,10 @@ const git = require('./git');
 const log = require('./com/log');
 
 Promise.resolve()
-    .then(() => git('./'))
+    .then(() => git({
+        path: './',
+
+    }))
     // .then(() => git('../biyibi_new_skin'))
     // .then(() => {
     //     log.success('git push success!!!', 1);

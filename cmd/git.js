@@ -8,7 +8,7 @@ const gitPull = require('./git/gitPull');
 const gitPush = require('./git/gitPush');
 const gitCommit = require('./git/gitCommit');
 
-module.exports = function (path) {
+module.exports = function ({ path, afterPullSuccess }) {
     return Promise.resolve()
         .then(() => {
             log.start('开始操作git');
@@ -58,10 +58,9 @@ module.exports = function (path) {
                 });
         })
         .then(() => {
-            return gitPull()
-                .then(() => pullSuccess())
-                // 主意这个 catch 是针对 gitPull()， 所以写在 then 的里面
-                .catch(err => {
+            return Promise.resolve()
+                .then(() => gitPull())
+                .then(() => pullSuccess(), () => {
                     log.error('git pull 失败了');
                     return pullErr();
                 });
@@ -73,7 +72,7 @@ module.exports = function (path) {
             .then(() => gitPush());
     }
 
-    function pullErr(commitMsg) {
+    function pullErr() {
         let comStr = '是否先commit再pull: (Y/N)';
         comStr = color.yellow(`${comStr}`);
         return inputMsg(comStr)
