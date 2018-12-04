@@ -60,8 +60,8 @@ module.exports = function (path) {
         .then(() => {
             return gitPull()
                 .then(() => pullSuccess())
+                // 主意这个 catch 是针对 gitPull()， 所以写在 then 的里面
                 .catch(err => {
-                    // log.tip(err, 1);
                     log.error('git pull 失败了');
                     return pullErr();
                 });
