@@ -58,13 +58,12 @@ module.exports = function ({ path, afterPullSuccess }) {
                 });
         })
         .then(() => {
-            return gitPull()
-                // 主意这个 catch 是针对 gitPull()， 所以写在 then 的里面
-                .catch(err => {
+            return Promise.resolve()
+                .then(() => gitPull())
+                .then(() => pullSuccess(), () => {
                     log.error('git pull 失败了');
                     return pullErr();
-                })
-                .then(() => pullSuccess());
+                });
         });
 
     function pullSuccess() {
