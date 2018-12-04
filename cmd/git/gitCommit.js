@@ -30,4 +30,5 @@ module.exports = function () {
         })
         .then(msg => submit.commit(msg))
         .then(() => log.tip('git commit success', 1))
+        .then(err => { throw Error(err) })
 }

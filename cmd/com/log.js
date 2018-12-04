@@ -37,5 +37,9 @@ exports.oneline = function (cnt) {
 }
 
 exports.start = function (cnt) {
-    this.color('magenta', `======================${cnt}======================`, 1);
+    this.color('magenta', `======================${cnt} start ======================`, 1);
+}
+
+exports.end = function (cnt) {
+    this.color('magenta', `======================${cnt} end ======================`, 1);
 }
