@@ -177,22 +177,28 @@ const getMd5 = (file) => {
 
 var arr = [];
 var i = 20;
+arr.push(`./test_img/1.mp3`);
+arr.push(`./test_img/1.json`);
+arr.push(`./test_img/1.sk`);
 
-while (i) {
-    arr.push(`./test_img/${i}.jpg`);
-    i--;
-    if (i <= 0) {
-        break;
-    }
-}
+// while (i) {
+//     arr.push(`./test_img/${i}.jpg`);
+//     i--;
+//     if (i <= 0) {
+//         break;
+//     }
+// }
+// var arr2 = arr;
+
 arr = arr.concat(arr);
-arr = arr.concat(arr);
-arr = arr.concat(arr);
+// arr = arr.concat(arr);
+// arr = arr.concat(arr);
+// arr = arr.concat(arr);
 // arr = arr.concat(arr);
 // arr = arr.concat(arr);
 console.log(arr.length);
 
-const getMd5Promise = (file) => {
+const md5Commit = (file) => {
     return new Promise((resolve, reject) => {
         let commitMD5 = shelljs.exec(`git log -n 1 --pretty=format:"%h" -- ${file}`, { silent: true, async: true });
         if (!commitMD5.stdout) {
@@ -202,6 +208,18 @@ const getMd5Promise = (file) => {
             resolve(data);
         });
     });
+}
+
+const md5FilePromise = require('md5-file/promise');
+const md5File = function (file) {
+    return md5FilePromise(file)
+        .then((file) => {
+            return Promise.resolve(file.substr(0, 4))
+        });
+}
+
+const md5Do = (file) => {
+    return md5File(file);
 }
 
 // const test1 = () => {
@@ -215,6 +233,8 @@ const getMd5Promise = (file) => {
 // }
 
 // test1();
+
+const fs = require('fs');
 
 const test2 = () => {
     let firstTime = Date.now();
@@ -231,7 +251,7 @@ const test2 = () => {
             return Promise.resolve();
         }
 
-        sliceArr = sliceArr.map(item => getMd5Promise(item));
+        sliceArr = sliceArr.map(item => md5Do(item));
         return Promise.all(sliceArr)
             .then((data) => {
                 res = res.concat(data);
@@ -243,6 +263,8 @@ const test2 = () => {
     loop().then(() => {
         console.log(res);
         console.log(`耗时${Date.now() - firstTime}`);
+
+        fs.writeFileSync('./md5Cnt', res, 'utf8');
     });
 }
 
