@@ -166,10 +166,84 @@
 //     });
 // }
 
+var shelljs = require('shelljs');
+
 const getMd5 = (file) => {
-    let commitMD5 = exec(`git log -n 1 --pretty=format:"%h" -- ${file}`, { silent: true });
+    let commitMD5 = shelljs.exec(`git log -n 1 --pretty=format:"%h" -- ${file}`, { silent: true });
     let stdout = commitMD5.stdout;
+    // console.log(stdout);
     return stdout;
 }
 
+var arr = [];
+var i = 20;
 
+while (i) {
+    arr.push(`./test_img/${i}.jpg`);
+    i--;
+    if (i <= 0) {
+        break;
+    }
+}
+arr = arr.concat(arr);
+arr = arr.concat(arr);
+arr = arr.concat(arr);
+// arr = arr.concat(arr);
+// arr = arr.concat(arr);
+console.log(arr.length);
+
+const getMd5Promise = (file) => {
+    return new Promise((resolve, reject) => {
+        let commitMD5 = shelljs.exec(`git log -n 1 --pretty=format:"%h" -- ${file}`, { silent: true, async: true });
+        if (!commitMD5.stdout) {
+            throw new Error('获取 md5 失败, 请重新获取');
+        }
+        commitMD5.stdout.on('data', function (data) {
+            resolve(data);
+        });
+    });
+}
+
+// const test1 = () => {
+//     let firstTime = Date.now();
+//     var resArr = []
+//     for (var i = 0; i < arr.length; i++) {
+//         resArr.push(getMd5(arr[i]));
+//     }
+//     console.log(resArr);
+//     console.log(`耗时${Date.now() - firstTime}`);
+// }
+
+// test1();
+
+const test2 = () => {
+    let firstTime = Date.now();
+    const NUM = 100;
+    let pos = 0;
+    let res = [];
+
+    const loop = () => {
+        let start = pos;
+        let end = start + NUM;
+
+        let sliceArr = arr.slice(start, end);
+        if (sliceArr.length === 0) {
+            return Promise.resolve();
+        }
+
+        sliceArr = sliceArr.map(item => getMd5Promise(item));
+        return Promise.all(sliceArr)
+            .then((data) => {
+                res = res.concat(data);
+                pos += NUM;
+                return loop();
+            });
+    }
+
+    loop().then(() => {
+        console.log(res);
+        console.log(`耗时${Date.now() - firstTime}`);
+    });
+}
+
+test2();
