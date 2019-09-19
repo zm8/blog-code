@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>zepto animation stop</title>
+	<style type='text/css'>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		#box {
+			margin-top: 200px;
+			width: 100px;
+			height: 100px;
+			background-color: red;
+			position: absolute;
+			left: 0
+		}
+	</style>
+</head>
+
+<body>
+	<div id='box'></div>
+	<script src='js/zepto.js'></script>
+	<script src='js/zepto.data.js'></script>
+	<script src='js/zepto.animate.js'></script>
+	<script src='js/zepto.stop.js'></script>
+
+	<script type="text/javascript">
+		$('#box').animate({
+			rotate: '160deg',
+			left: 500
+		}, 3000, function () {
+			console.log('done');
+		});
+
+		setTimeout(() => {
+			// $('#box').stop(true);
+			// $('#box').stop(null, true);
+			$('#box').stop();
+		}, 500);
+	</script>
+</body>
+
+</html>
