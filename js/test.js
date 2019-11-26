@@ -1,2 +1,3 @@
-var a;
-console.log(b);
+var a
+console.log(b)
+console.log(c)
