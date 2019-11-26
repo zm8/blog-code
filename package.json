@@ -7,12 +7,21 @@
   "license": "MIT",
   "devDependencies": {
     "eslint": "^6.7.1",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "husky": "^3.1.0",
     "lint-staged": "^9.4.3"
   },
   "scripts": {
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": "eslint"
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
   }
 }
