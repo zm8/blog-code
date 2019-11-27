@@ -16,6 +16,11 @@ module.exports = {
         "sourceType": "module"
     },
     "rules": {
+        "prettier/prettier": ["error", {
+            "singleQuote": true,
+            "trailingComma": "all",
+            "printWidth": 100
+        }],
        "no-unused-vars": 0
     }
 };
