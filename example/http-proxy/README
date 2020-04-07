@@ -1,0 +1,4 @@
+nodemon http => 启动http
+nodemon https => 启动https
+nodemon proxy => 启动原生 proxy
+nodemon httpProxy => 启动 http-proxy
