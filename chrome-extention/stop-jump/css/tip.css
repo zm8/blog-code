@@ -1,0 +1,20 @@
+.__plugin-jump-cnt{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    background-color: #ff4d4f;
+    padding: 14px 26px;
+    text-align: center;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 20px;
+    z-index: 99999999999;
+
+    transition: opacity 0.5s ease-out;
+    opacity: 1;
+}
+
+.__plugin-jump-cnt.hide{
+    opacity: 0;
+}
