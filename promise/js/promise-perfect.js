@@ -23,7 +23,6 @@ function Promise(resolver) {
     this.data = value;
     this.onRejectedCallback.forEach(item => item(value));
   };
-
   const resolveWrap = value=>{
     // this 相当于 Promise 的实例
     resolvePromise(value, this, resolve, reject);
@@ -37,31 +36,30 @@ function Promise(resolver) {
 
 Promise.prototype.then = function (onResolved, onRejected) {
   onResolved = typeof onResolved === 'function' ? onResolved : v=>v;
-  // 注意默认函数是 throw v
+  // 注意默认函数是 v=>{throw v}
   onRejected = typeof onRejected === 'function' ? onRejected: v=>{throw v};
-
-  let {status, data, onResolvedCallback, onRejectedCallback} = this;
-  let promise2;
-  return promise2 = new Promise((resolve, reject)=>{
-    const resolveCall = onMethod => data => {
-      setTimeout(() => {
-        try {
-          let val = onMethod(data);
-          resolvePromise(val, promise2, resolve, reject);
-        } catch (e) {
-          reject(e);
-        }
-      });
-    };
-    if (status === "resolved") {
-      resolveCall(onResolved)(data);
+  const resolveCall = (onMethod, resolve, reject) => data => {
+    setTimeout(() => {
+      try {
+        let val = onMethod(data);
+        resolve(val);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  };
+  return new Promise((resolve, reject)=>{
+    const resolveFn = resolveCall(onResolved, resolve, reject);
+    const rejectFn = resolveCall(onRejected, resolve, reject);
+    if (this.status === "resolved") {
+      resolveFn(this.data);
     }
-    if (status === "rejected") {
-      resolveCall(onRejected)(data);
+    if (this.status === "rejected") {
+      rejectFn(this.data);
     }
-    if (status === "pending") {
-      onResolvedCallback.push( resolveCall(onResolved) );
-      onRejectedCallback.push( resolveCall(onRejected) );
+    if (this.status === "pending") {
+      this.onResolvedCallback.push(resolveFn);
+      this.onRejectedCallback.push(rejectFn);
     }
   });
 };

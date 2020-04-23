@@ -1,11 +1,4 @@
 function Promise(resolver) {
-  if (typeof resolver !== 'function') {
-    throw new TypeError('Promise resolver ' + resolver + ' is not a function');
-  }
-  if (!(this instanceof Promise)) {
-    throw new TypeError('undefined is not a promise');
-  }
-
   this.status = 'pending'; // Promise当前的状态
   this.data = undefined; // Promise的值
   this.onResolvedCallback = [];
@@ -23,7 +16,6 @@ function Promise(resolver) {
     this.data = value;
     this.onRejectedCallback.forEach(item => item(value));
   };
-
   const resolveWrap = value => {
     if (value && typeof value.then === 'function') {
       value.then(resolveWrap, reject);
@@ -31,7 +23,6 @@ function Promise(resolver) {
     }
     resolve(value);
   };
-
   try {
     resolver(resolveWrap, reject);
   } catch (e) {
@@ -41,29 +32,30 @@ function Promise(resolver) {
 
 Promise.prototype.then = function(onResolved, onRejected) {
   onResolved = typeof onResolved === 'function' ? onResolved : v=>v;
-  // 注意默认函数是 throw v
+  // 注意默认函数是 v=>{throw v}
   onRejected = typeof onRejected === 'function' ? onRejected: v=>{throw v};
-
-  return new Promise((resolve, reject) => {
-    const resolveCall = onMethod => data => {
-      setTimeout(() => {
-        try {
-          let val = onMethod(data);
-          resolve(val);
-        } catch (e) {
-          reject(e);
-        }
-      });
-    };
-    if (this.status === 'resolved') {
-      resolveCall(onResolved)(this.data);
+  const resolveCall = (onMethod, resolve, reject) => data => {
+    setTimeout(() => {
+      try {
+        let val = onMethod(data);
+        resolve(val);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  };
+  return new Promise((resolve, reject)=>{
+    const resolveFn = resolveCall(onResolved, resolve, reject);
+    const rejectFn = resolveCall(onRejected, resolve, reject);
+    if (this.status === "resolved") {
+      resolveFn(this.data);
     }
-    if (this.status === 'rejected') {
-      resolveCall(onRejected)(this.data);
+    if (this.status === "rejected") {
+      rejectFn(this.data);
     }
-    if (this.status === 'pending') {
-      this.onResolvedCallback.push(resolveCall(onResolved));
-      this.onRejectedCallback.push(resolveCall(onRejected));
+    if (this.status === "pending") {
+      this.onResolvedCallback.push(resolveFn);
+      this.onRejectedCallback.push(rejectFn);
     }
   });
 };
