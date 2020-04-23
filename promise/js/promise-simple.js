@@ -12,13 +12,13 @@ function Promise(resolver) {
   this.onRejectedCallback = [];
 
   const resolve = value => {
-    if (this.status === 'pending') return;
+    if (this.status !== 'pending') return;
     this.status = 'resolved';
     this.data = value;
     this.onResolvedCallback.forEach(item => item(value));
   };
   const reject = value => {
-    if (this.status === 'pending') return;
+    if (this.status !== 'pending') return;
     this.status = 'rejected';
     this.data = value;
     this.onRejectedCallback.forEach(item => item(value));
@@ -26,7 +26,7 @@ function Promise(resolver) {
 
   const resolveWrap = value => {
     if (value && typeof value.then === 'function') {
-      value.then(resolve, reject);
+      value.then(resolveWrap, reject);
       return;
     }
     resolve(value);

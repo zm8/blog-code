@@ -66,21 +66,11 @@ Promise.prototype.then = function (onResolved, onRejected) {
   });
 };
 
-// 测试的时候需要抛出 deferred 的方法
-Promise.deferred = Promise.defer = function () {
-  var dfd = {};
-  dfd.promise = new Promise(function (resolve, reject) {
-    dfd.resolve = resolve;
-    dfd.reject = reject;
-  });
-  return dfd;
-};
-
 function resolvePromise(x, promise, resolve, reject) {
   if (promise === x) {
     return reject(new TypeError('Chaining cycle detected for promise!'))
   }
-  let once = false
+  let once = false;
   if (x !== null && ( typeof x === 'object' || typeof x === 'function' )) {
     try {
       let then = x.then;
@@ -106,6 +96,16 @@ function resolvePromise(x, promise, resolve, reject) {
     return resolve(x);
   }
 }
+
+// 测试的时候需要有 deferred 的方法
+Promise.deferred = Promise.defer = function () {
+  var dfd = {};
+  dfd.promise = new Promise(function (resolve, reject) {
+    dfd.resolve = resolve;
+    dfd.reject = reject;
+  });
+  return dfd;
+};
 
 try {
   module.exports = Promise;

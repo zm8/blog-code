@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise simple example</title>
+  </head>
+  <body>
+    <script src="../js/promise-simple.js"></script>
+    <script src="../js/promise-extention.js"></script>
+
+<script>
+// var p = new Promise(resolve=>{
+//     setTimeout(()=>{
+//         console.log(1);
+//         resolve(p);
+//     }, 1000);
+// });
+// p.then(v=>console.log('then===', v))
+//     .catch(r=>console.log('catch===', r));
+</script>
+
+<script>
+// let i = 0;
+// let obj = {
+//     get then(){
+//         i++;
+//         console.log(i);
+//         return resolve=>{
+//             resolve(11111);
+//         }
+//     }
+// }
+// Promise.resolve(obj)
+//     .then(v=>console.log('then===', v))
+//     .catch(r=>console.log('catch===', r));
+</script>
+
+<script>
+// let obj2 = {
+//     then(resolve){
+//         setTimeout(()=>{
+//             resolve(11111);
+//         });
+//     }
+// }
+// let obj = {
+//     then(resolve, reject){
+//         resolve(obj2);
+//         throw '22222';
+//     }
+// }
+// Promise.resolve(obj)
+//     .then(v=>console.log('then===', v))
+//     .catch(r=>console.log('catch===', r));
+</script>
+
+<script>
+// var num = 11111;
+// Number.prototype.then = resolve => resolve('2222');
+// Promise.resolve(num)
+//     .then(v=>console.log('then===', v))
+//     .catch(r=>console.log('catch===', r));
+</script>
+
+<script>
+// let p = new Promise(resolve=>setTimeout(()=>resolve(1)))
+// new Promise(resolve=> resolve(p))
+//     .then(v=>console.log('then===', v))
+//     .catch(r=>console.log('catch===', r));
+</script>
+
+
+  </body>
+</html>
