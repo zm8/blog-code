@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise use example</title>
+  </head>
+  <body>
+
+<script>
+const thenFn = v => console.log('then==', v);
+const catchFn = v => console.log('catch==', v);
+const pResolve = new Promise(resolve => setTimeout(() => resolve(1), 1000));
+const pReject = new Promise((resolve, reject) => setTimeout(() => reject(1), 1000));
+
+// 输出 then=== 1
+Promise.resolve(1)
+    .then(thenFn);
+
+// 输出 catch=== 1
+Promise.reject(1)
+    .then(thenFn)
+    .catch(catchFn);
+
+// 1s 输出 then=== 1
+Promise.resolve(pResolve)
+    .then(thenFn)
+    .catch(catchFn);
+
+// 1s 输出 then=== 1
+Promise.resolve()
+    .then(()=>pResolve)
+    .then(thenFn)
+    .catch(catchFn)
+
+// 1s 输出 catch=== 1
+Promise.resolve(pReject)
+    .then(thenFn)
+    .catch(catchFn);
+
+// 1s 输出 catch=== 1
+Promise.resolve()
+    .then(()=>pReject)
+    .then(thenFn)
+    .catch(catchFn)
+
+
+// 马上输出 catch== Promise {<pending>}
+    Promise.reject(pResolve)
+    .then(thenFn)
+    .catch(catchFn);
+
+// 马上输出 catch== Promise {<pending>}
+Promise.reject(pReject)
+    .then(thenFn)
+    .catch(catchFn);
+
+// 输出 catch=== 1
+Promise.resolve()
+    .then(()=>{throw '1'})
+    .then(thenFn)
+    .catch(catchFn)
+
+// 输出 then=== 1
+Promise.reject(1)
+  .catch(v=>v)
+  .then(thenFn);
+
+</script>
+
+
+  </body>
+</html>
