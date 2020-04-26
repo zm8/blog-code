@@ -1,0 +1,14 @@
+{
+    "name": "vscode_debug",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+        "start": "node --inspect-brk=5555 start.js",
+        "test": "mocha  --inspect-brk=5555 test.js",
+        "test2": "node --inspect-brk=5555 ./node_modules/.bin/mocha test.js"
+    },
+    "dependencies": {
+        "mocha": "^7.1.1"
+    }
+}
