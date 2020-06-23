@@ -1,10 +1,13 @@
 const express = require('express');
 const app = express();
+
 var options = {
-  etag: false, // 禁用协商缓存
-  lastModified: false,
+  etag: true,
+  lastModified: true,
   setHeaders: (res, path, stat) => {
-    // res.set('Cache-Control', 'max-age=5'); // 强缓存超时时间为10秒
+    res.set({
+      'Cache-Control': 'max-age=1000',
+    });
   },
 };
 app.use(express.static(__dirname + '/public', options));
