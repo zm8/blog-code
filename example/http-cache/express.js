@@ -12,3 +12,4 @@ var options = {
 };
 app.use(express.static(__dirname + '/public', options));
 app.listen(3000);
+console.log('打开 http://localhost.meetsocial.cn:3000');
