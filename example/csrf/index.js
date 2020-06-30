@@ -33,6 +33,11 @@ const qs = require('querystring');
 server.on('request', async function(req, res) {
   const { url, headers } = req;
   const { cookie } = headers;
+  if (url === '/favicon.ico') {
+    res.statusCode = 404;
+    res.end();
+    return;
+  }
 
   console.log('cookie: ', cookie);
   console.log('url', url);
