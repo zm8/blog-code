@@ -1,5 +1,5 @@
 // 网站搜索
-// 打开 http://localhost:8888/?s=%22%3E%3Cscript%3Ealert(1)%3C/script%3E
+// 打开 http://localhost:8888/?s="><script>alert(1)</script>
 const http = require('http');
 const server = http.createServer();
 const url = require('url');
