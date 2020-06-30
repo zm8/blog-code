@@ -125,8 +125,18 @@ function postData(req, callback) {
   });
   req.on('end', () => {
     try {
+      /*
+        若 body 格式是 '{"a": 1, "b": 2}',
+        对应 fetch 的Content-Type 为 application/json,
+        parse 后变成 {a: 1, b: 2}
+      */
       body = JSON.parse(body);
     } catch (e) {
+      /*
+        若 body 格式是 "a=1&b=2",
+        对应 fetch 的Content-Type 为 application/x-www-form-urlencoded,
+        parse 后变成 {a: 1, b: 2}
+      */
       body = qs.parse(body);
     }
     callback(body);
