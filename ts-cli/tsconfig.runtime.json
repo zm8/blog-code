@@ -1,0 +1,6 @@
+{
+    "extends": "./tsconfig",
+    "compilerOptions": {
+      "target": "ES2017", // async, await 编译时不会转译成 Generator
+    }
+}
