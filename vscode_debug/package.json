@@ -9,6 +9,6 @@
         "test2": "node --inspect-brk=5555 ./node_modules/.bin/mocha test.js"
     },
     "dependencies": {
-        "mocha": "^7.1.1"
+        "mocha": "^9.1.1"
     }
 }
