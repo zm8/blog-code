@@ -1,4 +1,4 @@
 node_modules
 yarn-error.log
 promise/yarn.lock
-yarn.lock;
+yarn.lock
