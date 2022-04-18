@@ -1,4 +1,4 @@
 node_modules
 yarn-error.log
-promise/yarn.lock
 yarn.lock
+example/http-md5/domain.js
