@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8" />
+		<title>API 测试页面</title>
+		<style>
+			body {
+				max-width: 800px;
+				margin: 0 auto;
+				padding: 20px;
+				font-family: Arial, sans-serif;
+			}
+			.test-section {
+				margin-bottom: 30px;
+				padding: 20px;
+				border: 1px solid #ddd;
+				border-radius: 5px;
+			}
+			.result {
+				margin-top: 10px;
+				padding: 10px;
+				background-color: #f5f5f5;
+				border-radius: 4px;
+				white-space: pre-wrap;
+			}
+			button {
+				padding: 8px 16px;
+				background-color: #4caf50;
+				color: white;
+				border: none;
+				border-radius: 4px;
+				cursor: pointer;
+				margin: 5px;
+			}
+			button:hover {
+				background-color: #45a049;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>API 测试页面</h1>
+
+		<!-- GET 测试 -->
+		<div class="test-section">
+			<h2>GET 请求测试</h2>
+			<button onclick="testGet()">测试 GET</button>
+			<div id="getResult" class="result"></div>
+		</div>
+
+		<!-- POST 测试 -->
+		<div class="test-section">
+			<h2>POST 请求测试</h2>
+			<button onclick="testPost()">测试 POST</button>
+			<div id="postResult" class="result"></div>
+		</div>
+
+		<!-- 文件上传测试 -->
+		<div class="test-section">
+			<h2>文件上传测试</h2>
+			<input type="file" id="fileInput" />
+			<button onclick="testUpload()">上传文件</button>
+			<div id="uploadResult" class="result"></div>
+		</div>
+
+		<!-- 文件下载测试 -->
+		<div class="test-section">
+			<h2>文件下载测试</h2>
+			<input type="text" id="filename" placeholder="输入要下载的文件名" />
+			<button onclick="testDownload()">下载文件</button>
+			<div id="downloadResult" class="result"></div>
+		</div>
+
+		<script>
+			// GET 请求测试
+			async function testGet() {
+				try {
+					const response = await fetch(
+						"http://localhost:3000/api/test?name=测试"
+					);
+					const data = await response.json();
+					document.getElementById("getResult").textContent = JSON.stringify(
+						data,
+						null,
+						2
+					);
+				} catch (error) {
+					document.getElementById("getResult").textContent =
+						"错误: " + error.message;
+				}
+			}
+
+			// POST 请求测试
+			async function testPost() {
+				try {
+					const response = await fetch("http://localhost:3000/api/test", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({ name: "测试数据" }),
+					});
+					const data = await response.json();
+					document.getElementById("postResult").textContent = JSON.stringify(
+						data,
+						null,
+						2
+					);
+				} catch (error) {
+					document.getElementById("postResult").textContent =
+						"错误: " + error.message;
+				}
+			}
+
+			// 文件上传测试
+			async function testUpload() {
+				try {
+					const fileInput = document.getElementById("fileInput");
+					if (!fileInput.files[0]) {
+						throw new Error("请先选择文件");
+					}
+
+					const formData = new FormData();
+					formData.append("file", fileInput.files[0]);
+
+					const response = await fetch("http://localhost:3000/api/upload", {
+						method: "POST",
+						body: formData,
+					});
+					const data = await response.json();
+					document.getElementById("uploadResult").textContent = JSON.stringify(
+						data,
+						null,
+						2
+					);
+				} catch (error) {
+					document.getElementById("uploadResult").textContent =
+						"错误: " + error.message;
+				}
+			}
+
+			// 文件下载测试
+			async function testDownload() {
+				try {
+					const filename = document.getElementById("filename").value;
+					if (!filename) {
+						throw new Error("请输入文件名");
+					}
+
+					const response = await fetch(
+						`http://localhost:3000/api/download/${filename}`
+					);
+					if (!response.ok) {
+						throw new Error("下载失败: " + response.statusText);
+					}
+
+					// 创建 blob 并下载
+					const blob = await response.blob();
+					const url = window.URL.createObjectURL(blob);
+					const a = document.createElement("a");
+					a.href = url;
+					a.download = filename;
+					document.body.appendChild(a);
+					a.click();
+					window.URL.revokeObjectURL(url);
+					document.body.removeChild(a);
+
+					document.getElementById("downloadResult").textContent = "下载成功！";
+				} catch (error) {
+					document.getElementById("downloadResult").textContent =
+						"错误: " + error.message;
+				}
+			}
+		</script>
+	</body>
+</html>
