@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { http } from "./service/httpClient";
+import { http } from "./http/client";
 
 // GET 请求测试
 async function testGet() {
