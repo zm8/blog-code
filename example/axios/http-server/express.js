@@ -97,6 +97,7 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
 					size: req.file.size,
 					mimetype: req.file.mimetype,
 				},
+				time: new Date().toISOString(),
 			},
 		],
 		msg: "成功",

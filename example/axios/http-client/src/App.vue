@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { http } from "./http";
+import { http } from "./http-service";
 
-type TestResponse = {
+type ResponseGet = {
   message: string;
   query: {
     name: string;
@@ -9,9 +9,28 @@ type TestResponse = {
   time: string;
 };
 
+type ResponsePost = {
+  message: string;
+  body: {
+    name: string;
+  };
+  time: string;
+};
+
+type ResponseUpload = {
+  message: string;
+  fileInfo: {
+    filename: string;
+    originalName: string;
+    size: number;
+    mimetype: string;
+  };
+  time: string;
+};
+
 // GET 请求测试
 async function testGet() {
-  const promise = http.get<TestResponse>({
+  const promise = http.get<ResponseGet>({
     url: "/api/test",
     params: {
       name: "测试 get",
@@ -21,17 +40,16 @@ async function testGet() {
   // setTimeout(() => {
   //   promise.cancel();
   // }, 1000);
-  console.log(promise.cancel);
   const res = await promise;
-  console.log(res.message);
+  console.log(res, res.query);
 }
 
 async function testPOST() {
-  const res = await http.post<TestResponse>({
+  const res = await http.post<ResponsePost>({
     url: "/api/test",
     params: { name: "测试 post" },
   });
-  console.log(res.message);
+  console.log(res, res.body);
 }
 
 async function testUpload() {
@@ -41,14 +59,14 @@ async function testUpload() {
   }
   const formData = new FormData();
   formData.append("file", fileInput.files[0]);
-  const res = await http.upload<TestResponse>({
+  const res = await http.upload<ResponseUpload>({
     url: "/api/upload",
     params: formData,
     onProgress: (percent) => {
       console.log("百分比:", percent);
     },
   });
-  console.log(res.message);
+  console.log(res, res.fileInfo);
 }
 
 async function testDownload() {

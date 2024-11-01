@@ -1,5 +1,5 @@
-import { BaseHttp } from "../shared/http-client/base-http";
-import { ResponseHandler } from "./response-handler";
+import { BaseHttp } from "../http-core/core/base-http";
+import { ResponseHandler } from "./handlers/response-handler";
 
 export class Http extends BaseHttp {
   constructor() {
