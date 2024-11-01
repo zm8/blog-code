@@ -1,5 +1,5 @@
-import { BaseHttp } from "../shared/http-client";
-import { setupResponseInterceptor } from "./interceptors";
+import { BaseHttp } from "../shared/http-client/base-http";
+import { ResponseHandler } from "./response-handler";
 
 export class Http extends BaseHttp {
   constructor() {
@@ -12,10 +12,8 @@ export class Http extends BaseHttp {
         },
         showError: true,
       },
+      responseHandler: new ResponseHandler(),
     });
-  }
-  protected setupInterceptors(): void {
-    this.instance.interceptors.response.use(setupResponseInterceptor);
   }
 }
 

@@ -1,9 +1,17 @@
 <script setup lang="ts">
-import { http } from "./http/client";
+import { http } from "./http";
+
+type TestResponse = {
+  message: string;
+  query: {
+    name: string;
+  };
+  time: string;
+};
 
 // GET 请求测试
 async function testGet() {
-  const promise = http.get({
+  const promise = http.get<TestResponse>({
     url: "/api/test",
     params: {
       name: "测试 get",
@@ -13,16 +21,17 @@ async function testGet() {
   // setTimeout(() => {
   //   promise.cancel();
   // }, 1000);
+  console.log(promise.cancel);
   const res = await promise;
-  console.log(res);
+  console.log(res.message);
 }
 
 async function testPOST() {
-  const res = await http.post({
+  const res = await http.post<TestResponse>({
     url: "/api/test",
     params: { name: "测试 post" },
   });
-  console.log(res);
+  console.log(res.message);
 }
 
 async function testUpload() {
@@ -32,21 +41,23 @@ async function testUpload() {
   }
   const formData = new FormData();
   formData.append("file", fileInput.files[0]);
-  const res = await http.upload({
+  const res = await http.upload<TestResponse>({
     url: "/api/upload",
     params: formData,
     onProgress: (percent) => {
       console.log("百分比:", percent);
     },
   });
-  console.log(res);
+  console.log(res.message);
 }
 
 async function testDownload() {
-  await http.download({
+  const promise = http.download({
     url: "/api/download/",
     params: { filename: "foo.txt" },
   });
+  const res = await promise;
+  console.log(res);
 }
 </script>
 

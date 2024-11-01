@@ -50,12 +50,15 @@ app.get("/api/test", async (req, res) => {
 	// await delay(3000);
 	console.log("收到 GET 请求:", req.query);
 	res.json({
-		code: 200,
-		data: {
-			message: "这是一个GET请求响应",
-			query: req.query,
-			time: new Date().toISOString(),
-		},
+		returnCode: "00000",
+		data: [
+			{
+				message: "这是一个GET请求响应",
+				query: req.query,
+				time: new Date().toISOString(),
+			},
+		],
+		msg: "成功",
 	});
 });
 
@@ -63,12 +66,15 @@ app.get("/api/test", async (req, res) => {
 app.post("/api/test", (req, res) => {
 	console.log("收到 POST 请求:", req.body);
 	res.json({
-		code: 200,
-		data: {
-			message: "这是一个POST请求响应",
-			body: req.body,
-			time: new Date().toISOString(),
-		},
+		returnCode: "00000",
+		data: [
+			{
+				message: "这是一个POST请求响应",
+				body: req.body,
+				time: new Date().toISOString(),
+			},
+		],
+		msg: "成功",
 	});
 });
 
@@ -81,16 +87,19 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
 		});
 	}
 	res.json({
-		code: 200,
-		data: {
-			message: "文件上传成功",
-			fileInfo: {
-				filename: req.file.filename,
-				originalName: req.file.originalname,
-				size: req.file.size,
-				mimetype: req.file.mimetype,
+		returnCode: "00000",
+		data: [
+			{
+				message: "文件上传成功",
+				fileInfo: {
+					filename: req.file.filename,
+					originalName: req.file.originalname,
+					size: req.file.size,
+					mimetype: req.file.mimetype,
+				},
 			},
-		},
+		],
+		msg: "成功",
 	});
 });
 

@@ -5,19 +5,30 @@ import {
   CreateAxiosDefaults,
 } from "axios";
 
-type RequestOptions = {
-  showError?: boolean;
-};
-
-export interface HttpParams {
-  config: CreateAxiosDefaults & RequestOptions;
+export interface ResponseHandler<T = any> {
+  handle(response: HttpResponse<any>): Promise<T>;
 }
 
-export type HttpRequestConfig = AxiosRequestConfig & RequestOptions;
+// 修改 ResponseType 的定义
+export type ResponseType<T, R> = CancellablePromise<
+  R extends ResponseHandler<T> ? T : HttpResponse<T>
+>;
 
 export interface HttpResponse<T = any> extends AxiosResponse {
   data: T;
 }
+
+// 定义 BaseHttp constructor 的配置
+export interface BaseHttpOptions {
+  config?: CreateAxiosDefaults & RequestOptions;
+  responseHandler?: ResponseHandler;
+}
+
+type RequestOptions = {
+  showError?: boolean;
+};
+
+export type HttpRequestConfig = AxiosRequestConfig & RequestOptions;
 
 export type HttpError = AxiosError & {
   config?: HttpRequestConfig;

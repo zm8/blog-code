@@ -1,27 +1,29 @@
 import axios, { AxiosInstance } from "axios";
 import {
-  CancellablePromise,
+  ResponseType,
   HttpError,
-  HttpParams,
   HttpResponse,
   HttpRequestConfig,
   UploadRequestConfig,
   ErrorCode,
-} from "./type";
+  BaseHttpOptions,
+  ResponseHandler,
+} from "./types";
 
 export abstract class BaseHttp {
   protected instance: AxiosInstance;
-  private pendingRequests: Map<number, AbortController> = new Map();
-  private requestId = 1;
+  protected responseHandler?: ResponseHandler;
+  private requestControllers: Map<number, AbortController> = new Map();
+  private requestUniqueId = 1;
 
-  constructor(params: HttpParams) {
-    this.instance = axios.create(params.config);
-    this.setupBaseInterceptors();
+  constructor(options: BaseHttpOptions = {}) {
+    const { config = {}, responseHandler } = options;
+    this.instance = axios.create(config);
+    this.responseHandler = responseHandler;
+    this.setupInterceptors();
   }
 
-  protected abstract setupInterceptors(): void;
-
-  private setupBaseInterceptors(): void {
+  private setupInterceptors(): void {
     this.instance.interceptors.request.use(
       (config) => {
         const isGet = config.method?.toUpperCase() === "GET";
@@ -35,8 +37,17 @@ export abstract class BaseHttp {
     );
 
     this.instance.interceptors.response.use(
-      (response) =>
-        response.config.responseType === "blob" ? response : response.data,
+      (response) => {
+        // 处理 blob 类型的响应
+        if (response.config.responseType === "blob") {
+          return response;
+        }
+        // 使用注入的响应处理器处理业务响应
+        if (this.responseHandler) {
+          return this.responseHandler.handle(response);
+        }
+        return response;
+      },
       (error: HttpError) => {
         this.handleError(error);
         return Promise.reject(error);
@@ -76,40 +87,38 @@ export abstract class BaseHttp {
     );
   }
 
-  request<T = any>(
-    config: HttpRequestConfig,
-  ): CancellablePromise<HttpResponse<T>> {
+  request<T = any, R = unknown>(config: HttpRequestConfig): ResponseType<T, R> {
     if (!config.signal) {
-      const requestId = this.requestId++;
+      const requestUniqueId = this.requestUniqueId++;
       const controller = new AbortController();
       config.signal = controller.signal;
-      this.pendingRequests.set(requestId, controller);
+      this.requestControllers.set(requestUniqueId, controller);
 
       const promise = this.instance.request(config).finally(() => {
-        this.pendingRequests.delete(requestId);
+        this.requestControllers.delete(requestUniqueId);
       });
 
       return Object.assign(promise, {
         cancel: () => controller.abort(),
-      });
+      }) as ResponseType<T, R>;
     }
 
     return Object.assign(this.instance.request(config), {
       cancel: () => {}, // 外部控制的 signal，不需要我们处理取消
-    });
+    }) as ResponseType<T, R>;
   }
 
   cancelAllRequests(): void {
-    this.pendingRequests.forEach((controller) => controller.abort());
-    this.pendingRequests.clear();
+    this.requestControllers.forEach((controller) => controller.abort());
+    this.requestControllers.clear();
   }
 
   get<T = any>(options: HttpRequestConfig) {
-    return this.request<T>(options);
+    return this.request<T, ResponseHandler<T>>(options);
   }
 
   post<T = any>(options: HttpRequestConfig) {
-    return this.request<T>({
+    return this.request<T, ResponseHandler<T>>({
       ...options,
       method: "POST",
     });
@@ -140,7 +149,7 @@ export abstract class BaseHttp {
     } = options;
     const formData = this.createFormData(data);
 
-    const uploadPromise = this.request<T>({
+    const uploadPromise = this.request<T, ResponseHandler<T>>({
       ...otherOptions,
       method: "POST",
       headers: { "Content-Type": "multipart/form-data" },

@@ -1,2 +1,2 @@
-export * from "./BaseHttp";
-export * from "./type";
+export * from "./types";
+export * from "./base-http";
