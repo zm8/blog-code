@@ -23,7 +23,7 @@ importers:
         version: 22.8.1
       '@vitejs/plugin-vue':
         specifier: ^4.6.2
-        version: 4.6.2(vite@4.5.5(@types/node@22.8.1)(lightningcss@1.27.0)(sass@1.80.4))(vue@3.5.12(typescript@5.6.3))
+        version: 4.6.2(vite@4.5.6(@types/node@22.8.1)(lightningcss@1.27.0)(sass@1.80.4))(vue@3.5.12(typescript@5.6.3))
       postcss:
         specifier: ^8.4.47
         version: 8.4.47
@@ -43,8 +43,8 @@ importers:
         specifier: ^5.6.3
         version: 5.6.3
       vite:
-        specifier: ^4.5.5
-        version: 4.5.5(@types/node@22.8.1)(lightningcss@1.27.0)(sass@1.80.4)
+        specifier: ^4.5.6
+        version: 4.5.6(@types/node@22.8.1)(lightningcss@1.27.0)(sass@1.80.4)
       vue-tsc:
         specifier: ^2.1.8
         version: 2.1.8(typescript@5.6.3)
@@ -979,8 +979,8 @@ packages:
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
-  vite@4.5.5:
-    resolution: {integrity: sha512-ifW3Lb2sMdX+WU91s3R0FyQlAyLxOzCSCP37ujw0+r5POeHPwe6udWVIElKQq8gk3t7b8rkmvqC6IHBpCff4GQ==}
+  vite@4.5.6:
+    resolution: {integrity: sha512-ElBNuVvJKslxcfY2gMmae5IjaKGqCYGicCNZ+8R56sAznobeE3pI9ctzI17cBS/6OJh5YuQNMSN4BP4dRjugBg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
@@ -1232,9 +1232,9 @@ snapshots:
     dependencies:
       undici-types: 6.19.8
 
-  '@vitejs/plugin-vue@4.6.2(vite@4.5.5(@types/node@22.8.1)(lightningcss@1.27.0)(sass@1.80.4))(vue@3.5.12(typescript@5.6.3))':
+  '@vitejs/plugin-vue@4.6.2(vite@4.5.6(@types/node@22.8.1)(lightningcss@1.27.0)(sass@1.80.4))(vue@3.5.12(typescript@5.6.3))':
     dependencies:
-      vite: 4.5.5(@types/node@22.8.1)(lightningcss@1.27.0)(sass@1.80.4)
+      vite: 4.5.6(@types/node@22.8.1)(lightningcss@1.27.0)(sass@1.80.4)
       vue: 3.5.12(typescript@5.6.3)
 
   '@volar/language-core@2.4.8':
@@ -1823,7 +1823,7 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
-  vite@4.5.5(@types/node@22.8.1)(lightningcss@1.27.0)(sass@1.80.4):
+  vite@4.5.6(@types/node@22.8.1)(lightningcss@1.27.0)(sass@1.80.4):
     dependencies:
       esbuild: 0.18.20
       postcss: 8.4.47
